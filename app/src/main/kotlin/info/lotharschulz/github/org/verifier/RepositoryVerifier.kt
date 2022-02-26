@@ -5,8 +5,9 @@ import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.validate
 import info.lotharschulz.github.org.verifier.api.github.GitHubConnection
-// import info.lotharschulz.github.org.verifier.api.github.Organization
+import info.lotharschulz.github.org.verifier.api.github.GitHubCredentials
 import info.lotharschulz.github.org.verifier.api.github.Utils
+import info.lotharschulz.github.org.verifier.api.github.Utils.Companion.checkRateLimit
 import org.kohsuke.github.GitHub
 
 class RepositoryVerifier : CliktCommand(printHelpOnEmptyArgs = true, help = "helpMessage") {
@@ -25,22 +26,27 @@ class RepositoryVerifier : CliktCommand(printHelpOnEmptyArgs = true, help = "hel
     ).validate {
         if (it.trim().isBlank()) message("Organization can not be empty")
     }
+
     private fun processCommands() {
         when (val gitHubConnection = verifyGitHubConnection()) {
-            is GitHubConnection.Success -> runVerifier(organization.toString(), gitHubConnection.github)
+            is GitHubConnection.Success -> when (val valid = verifyGitHubCredentials(gitHubConnection.github)) {
+                is GitHubCredentials.Success -> runVerifier(organization.toString(), gitHubConnection.github)
+                is GitHubCredentials.Failure -> println(valid.error)
+            }
             is GitHubConnection.Failure -> println("could not connect to github.com")
         }
     }
-    private fun verifyGitHubConnection(): GitHubConnection = Utils.verifyGitHubConnection()
 
     private fun runVerifier(organizationName: String, github: GitHub) {
-        println(organizationName)
-        println(github)
-/*        if (checkRateLimit(github, displayError = true)) {
-            val githubOrganization = verifyGithubOrganization(github, organizationName)
-            val repositories = utils.listRepos(githubOrganization, limit = -1)
-            utils.writeRepositoriesBranchProtectionSettingsToCSV(repositories)
+        if (checkRateLimit(github)) {
+            val githubOrganization = Utils.verifyGithubOrganization(github, organizationName)
+            val repositories = Utils.listRepos(githubOrganization, limit = -1)
+            repositories.forEach { println("repo: ${it.name}") }
         }
-        checkRateLimit(github, displayError = false)*/
+        checkRateLimit(github)
     }
+
+    private fun verifyGitHubConnection(): GitHubConnection = Utils.verifyGitHubConnection()
+
+    private fun verifyGitHubCredentials(github: GitHub): GitHubCredentials = Utils.verifyGitHubCredentials(github)
 }
