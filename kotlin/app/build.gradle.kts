@@ -1,7 +1,6 @@
 plugins {
     val kotlinVersion = "1.6.10"
     kotlin("jvm") version kotlinVersion
-//    id("org.jetbrains.kotlin.jvm") version "1.6.10"
     application
 }
 
@@ -37,22 +36,20 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
 
 val classNameMain = "info.lotharschulz.github.org.verifier.AppKt"
 
-val fatJar = task("fatJar", type = Jar::class) {
+val fatJar = task("customFatJar", type = Jar::class) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes["Implementation-Title"] = "GitHub repository verifier"
         attributes["Implementation-Version"] = archiveVersion
         attributes["Main-Class"] = classNameMain
     }
+    archiveFileName.set("app.jar")
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
     with(tasks.jar.get() as CopySpec)
+    destinationDirectory.set(layout.buildDirectory.dir("dist")) // das ist die entscheidende Aenderung !!!!
 }
 
-tasks {
-    "build" {
-        dependsOn(fatJar)
-    }
-}
+tasks.getByName("build").dependsOn("customFatJar")
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
