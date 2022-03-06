@@ -28,7 +28,7 @@ class RepositoryVerifier : CliktCommand(printHelpOnEmptyArgs = true, help = "hel
     }
 
     private fun processCommands() {
-        when (val gitHubConnection = verifyGitHubConnection()) {
+        when (val gitHubConnection = verifyGitHubConnection(organization.toString())) {
             is GitHubConnection.Success -> when (val valid = verifyGitHubCredentials(gitHubConnection.github)) {
                 is GitHubCredentials.Success -> runVerifier(organization.toString(), gitHubConnection.github)
                 is GitHubCredentials.Failure -> println(valid.error)
@@ -46,7 +46,7 @@ class RepositoryVerifier : CliktCommand(printHelpOnEmptyArgs = true, help = "hel
         checkRateLimit(github)
     }
 
-    private fun verifyGitHubConnection(): GitHubConnection = Utils.verifyGitHubConnection()
+    private fun verifyGitHubConnection(organizationName: String): GitHubConnection = Utils.verifyGitHubConnection(organizationName)
 
     private fun verifyGitHubCredentials(github: GitHub): GitHubCredentials = Utils.verifyGitHubCredentials(github)
 }

@@ -1,12 +1,10 @@
 package info.lotharschulz.github.org.verifier.api.github
 
-import okhttp3.OkHttpClient
 import org.kohsuke.github.GHFileNotFoundException
 import org.kohsuke.github.GHOrganization
 import org.kohsuke.github.GHRepository
 import org.kohsuke.github.GitHub
 import org.kohsuke.github.GitHubBuilder
-import org.kohsuke.github.extras.okhttp3.OkHttpConnector
 import java.io.IOException
 
 class Utils {
@@ -14,13 +12,12 @@ class Utils {
 
         private const val acceptableGitHubAPILimit = 2500
 
-        fun verifyGitHubConnection(): GitHubConnection {
+        fun verifyGitHubConnection(organizationName: String): GitHubConnection {
+            val github_oauth = System.getenv("GITHUB_OAUTH").takeUnless { it.isNullOrEmpty() } ?: "default"
+            println(github_oauth)
             return try {
                 GitHubConnection.Success(
-                    GitHubBuilder.fromEnvironment()
-                        .withConnector(
-                            OkHttpConnector(OkHttpClient())
-                        ).build()
+                    GitHubBuilder().withOAuthToken(github_oauth, organizationName).build()
                 )
             } catch (ioe: IOException) {
                 GitHubConnection.Failure(ioe.toString())
