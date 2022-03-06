@@ -1,0 +1,4 @@
+
+```sh
+./gradlew clean build
+```
