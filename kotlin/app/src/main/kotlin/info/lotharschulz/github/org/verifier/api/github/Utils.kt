@@ -14,7 +14,6 @@ class Utils {
 
         fun verifyGitHubConnection(organizationName: String): GitHubConnection {
             val github_oauth = System.getenv("GITHUB_OAUTH").takeUnless { it.isNullOrEmpty() } ?: "default"
-            println(github_oauth)
             return try {
                 GitHubConnection.Success(
                     GitHubBuilder().withOAuthToken(github_oauth, organizationName).build()
