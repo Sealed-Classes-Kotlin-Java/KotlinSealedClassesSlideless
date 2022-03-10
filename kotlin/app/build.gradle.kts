@@ -14,7 +14,6 @@ dependencies {
 
     // github api
     implementation("org.kohsuke:github-api:1.301")
-    // implementation("org.slf4j:slf4j-api:1.7.30")
 
     // test
     testImplementation("org.jetbrains.kotlin:kotlin-test")
@@ -46,7 +45,7 @@ val fatJar = task("customFatJar", type = Jar::class) {
     archiveFileName.set("app.jar")
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
     with(tasks.jar.get() as CopySpec)
-    destinationDirectory.set(layout.buildDirectory.dir("dist")) // das ist die entscheidende Aenderung !!!!
+    destinationDirectory.set(layout.buildDirectory.dir("dist"))
 }
 
 tasks.getByName("build").dependsOn("customFatJar")
