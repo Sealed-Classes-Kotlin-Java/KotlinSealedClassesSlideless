@@ -10,7 +10,7 @@ import info.lotharschulz.github.org.verifier.api.github.Utils
 import info.lotharschulz.github.org.verifier.api.github.Utils.Companion.checkRateLimit
 import org.kohsuke.github.GitHub
 
-class RepositoryVerifier : CliktCommand(printHelpOnEmptyArgs = true, help = "helpMessage") {
+class RepositoryScanner : CliktCommand(printHelpOnEmptyArgs = true, help = "helpMessage") {
     override fun run() {
         processCommands()
     }
@@ -30,14 +30,14 @@ class RepositoryVerifier : CliktCommand(printHelpOnEmptyArgs = true, help = "hel
     private fun processCommands() {
         when (val gitHubConnection = verifyGitHubConnection(organization.toString())) {
             is GitHubConnection.Success -> when (val valid = verifyGitHubCredentials(gitHubConnection.github)) {
-                is GitHubCredentials.Success -> runVerifier(organization.toString(), gitHubConnection.github)
+                is GitHubCredentials.Success -> scanOrg(organization.toString(), gitHubConnection.github)
                 is GitHubCredentials.Failure -> println(valid.error)
             }
             is GitHubConnection.Failure -> println("could not connect to github.com")
         }
     }
 
-    private fun runVerifier(organizationName: String, github: GitHub) {
+    private fun scanOrg(organizationName: String, github: GitHub) {
         if (checkRateLimit(github)) {
             val githubOrganization = Utils.verifyGithubOrganization(github, organizationName)
             val repositories = Utils.listRepos(githubOrganization, limit = -1)

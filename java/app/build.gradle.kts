@@ -17,7 +17,7 @@ dependencies {
     implementation("org.kohsuke:github-api:1.301")
 
     // cli
-    implementation("com.github.ajalt.clikt:clikt:3.4.0")
+    implementation("info.picocli:picocli:4.6.3")
 }
 
 val classMain = "info.lotharschulz.github.org.verifier.App"

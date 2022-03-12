@@ -1,11 +1,10 @@
 package info.lotharschulz.github.org.verifier;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import picocli.CommandLine;
 
+public class App {
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        int exitCode = new CommandLine(new RepositoryScan()).execute(args);
+        System.exit(exitCode);
     }
 }
