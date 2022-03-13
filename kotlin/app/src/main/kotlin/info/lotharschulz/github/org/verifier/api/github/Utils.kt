@@ -10,7 +10,7 @@ import java.io.IOException
 class Utils {
     companion object {
 
-        private const val acceptableGitHubAPILimit = 2500
+        private const val acceptableGitHubAPILimit = 500
 
         fun verifyGitHubConnection(organizationName: String): GitHubConnection {
             val github_oauth = System.getenv("GITHUB_OAUTH").takeUnless { it.isNullOrEmpty() } ?: "default"
