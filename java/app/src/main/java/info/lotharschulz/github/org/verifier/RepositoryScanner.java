@@ -25,8 +25,8 @@ public class RepositoryScanner implements Callable<Integer>{
         GitHubConnection gitHubConnectionResult = Utils.verifyGitHubConnection(org);
 
         if (gitHubConnectionResult instanceof GitHubConnectionSuccess gitHubConnectionSuccess) {
-            if (verifyGitHubCredentials(gitHubConnectionSuccess) && checkRateLimit(gitHubConnectionSuccess.getGh())) {
-                System.out.println("TODO: scan repositories");
+            if (verifyGitHubCredentials(gitHubConnectionSuccess)) {
+                scanOrg(org, gitHubConnectionSuccess.getGh());
             }
         } else if (gitHubConnectionResult instanceof GitHubConnectionFailure gitHubConnectionFailure) {
             System.out.println("gitHubConnectionFailure.getError(): " + gitHubConnectionFailure.getError());
@@ -58,5 +58,11 @@ public class RepositoryScanner implements Callable<Integer>{
 
         }
         return false;
+    }
+
+    private void scanOrg(String organizationName, GitHub gitHub){
+        checkRateLimit(gitHub);
+        // TODO: scan the repos
+        checkRateLimit(gitHub);
     }
 }
