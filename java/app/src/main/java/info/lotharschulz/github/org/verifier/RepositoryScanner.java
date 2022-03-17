@@ -8,10 +8,15 @@ import info.lotharschulz.github.org.verifier.api.github.credentials.GitHubCreden
 import info.lotharschulz.github.org.verifier.api.github.credentials.GitHubCredentialsFailure;
 import info.lotharschulz.github.org.verifier.api.github.credentials.GitHubCredentialsSuccess;
 import info.lotharschulz.github.org.verifier.api.github.organization.GitHubOrganization;
+import info.lotharschulz.github.org.verifier.api.github.organization.GitHubOrganizationSuccess;
+import info.lotharschulz.github.org.verifier.api.github.repository.GitHubRepositorySuccess;
+import org.kohsuke.github.GHOrganization;
+import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import picocli.CommandLine.Option;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 public class RepositoryScanner implements Callable<Integer>{
@@ -39,7 +44,6 @@ public class RepositoryScanner implements Callable<Integer>{
 
     private boolean verifyGitHubCredentials(GitHubConnectionSuccess gitHubConnectionSuccess) {
         GitHubCredentials gitHubCredentialsResult = Utils.verifyGitHubCredentials(gitHubConnectionSuccess.getGh());
-        System.out.println("gitHubCredentialsResult: " + gitHubCredentialsResult);
         if (gitHubCredentialsResult instanceof GitHubCredentialsSuccess){
             return true;
         } else if (gitHubCredentialsResult instanceof GitHubCredentialsFailure gitHubCredentialsFailure) {
@@ -64,9 +68,10 @@ public class RepositoryScanner implements Callable<Integer>{
     private void scanOrg(String organizationName, GitHub gitHub){
         checkRateLimit(gitHub);
         GitHubOrganization githubOrganization = Utils.verifyGithubOrganization(gitHub, organizationName);
-        // TODO: scan the repos
-        // List<GHOrganization> repos = Utils.listRepos(githubOrganization, limit = -1)
-        // repositories.forEach(repo -> System.out.println(repo.toString().toLowerCase()));
+        if (githubOrganization instanceof GitHubOrganizationSuccess gitHubOrganizationSuccess) {
+            List<GHRepository> repos = Utils.listRepositories(gitHubOrganizationSuccess.ghOrganization());
+            repos.forEach(repo -> System.out.println(repo.getName().toLowerCase()));
+        }
         checkRateLimit(gitHub);
     }
 }
