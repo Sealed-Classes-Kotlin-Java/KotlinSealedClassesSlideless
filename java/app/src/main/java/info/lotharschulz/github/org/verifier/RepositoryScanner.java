@@ -9,8 +9,6 @@ import info.lotharschulz.github.org.verifier.api.github.credentials.GitHubCreden
 import info.lotharschulz.github.org.verifier.api.github.credentials.GitHubCredentialsSuccess;
 import info.lotharschulz.github.org.verifier.api.github.organization.GitHubOrganization;
 import info.lotharschulz.github.org.verifier.api.github.organization.GitHubOrganizationSuccess;
-import info.lotharschulz.github.org.verifier.api.github.repository.GitHubRepositorySuccess;
-import org.kohsuke.github.GHOrganization;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import picocli.CommandLine.Option;
