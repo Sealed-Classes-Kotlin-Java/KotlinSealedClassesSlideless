@@ -9,6 +9,9 @@ import info.lotharschulz.github.org.verifier.api.github.credentials.GitHubCreden
 import info.lotharschulz.github.org.verifier.api.github.organization.GitHubOrganization;
 import info.lotharschulz.github.org.verifier.api.github.organization.GitHubOrganizationFailure;
 import info.lotharschulz.github.org.verifier.api.github.organization.GitHubOrganizationSuccess;
+import info.lotharschulz.github.org.verifier.api.github.repository.GitHubRepository;
+import info.lotharschulz.github.org.verifier.api.github.repository.GitHubRepositoryFailure;
+import info.lotharschulz.github.org.verifier.api.github.repository.GitHubRepositorySuccess;
 import org.kohsuke.github.GHOrganization;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHubBuilder;
@@ -49,10 +52,19 @@ public class Utils {
     }
 
     public static List<GHRepository> listRepositories(GHOrganization gitHubOrganization){
+        GitHubRepository gitHubRepository = listRepos(gitHubOrganization);
+        if (gitHubRepository instanceof GitHubRepositorySuccess gitHubRepositorySuccess){
+            return gitHubRepositorySuccess.getRepositories();
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+    public static GitHubRepository listRepos(GHOrganization gitHubOrganization){
         try {
-            return gitHubOrganization.listRepositories().toList();
+            return new GitHubRepositorySuccess(gitHubOrganization.listRepositories().toList());
         } catch (IOException ioe) {
-            return null;
+            return new GitHubRepositoryFailure(ioe.getLocalizedMessage());
         }
     }
 }
