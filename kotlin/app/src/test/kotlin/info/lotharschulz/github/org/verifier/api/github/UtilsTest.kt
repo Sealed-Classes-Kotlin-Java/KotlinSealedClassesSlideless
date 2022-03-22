@@ -1,6 +1,5 @@
 package info.lotharschulz.github.org.verifier.api.github
 
-import info.lotharschulz.github.org.verifier.api.github.Utils
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 
