@@ -68,7 +68,9 @@ public class RepositoryScanner implements Callable<Integer>{
         GitHubOrganization githubOrganization = Utils.verifyGithubOrganization(gitHub, organizationName);
         if (githubOrganization instanceof GitHubOrganizationSuccess gitHubOrganizationSuccess) {
             List<GHRepository> repos = Utils.listRepositories(gitHubOrganizationSuccess.ghOrganization());
-            repos.forEach(repo -> System.out.println(repo.getName().toLowerCase()));
+            if (repos != null) {
+                repos.forEach(repo -> System.out.println(repo.getName().toLowerCase()));
+            }
         }
         checkRateLimit(gitHub);
     }
