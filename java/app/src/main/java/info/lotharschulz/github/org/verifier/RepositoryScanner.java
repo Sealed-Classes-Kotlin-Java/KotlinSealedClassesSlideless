@@ -9,8 +9,6 @@ import info.lotharschulz.github.org.verifier.api.github.credentials.GitHubCreden
 import info.lotharschulz.github.org.verifier.api.github.credentials.GitHubCredentialsSuccess;
 import info.lotharschulz.github.org.verifier.api.github.organization.GitHubOrganization;
 import info.lotharschulz.github.org.verifier.api.github.organization.GitHubOrganizationSuccess;
-import info.lotharschulz.github.org.verifier.api.github.repository.GitHubRepositorySuccess;
-import org.kohsuke.github.GHOrganization;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import picocli.CommandLine.Option;
@@ -70,7 +68,9 @@ public class RepositoryScanner implements Callable<Integer>{
         GitHubOrganization githubOrganization = Utils.verifyGithubOrganization(gitHub, organizationName);
         if (githubOrganization instanceof GitHubOrganizationSuccess gitHubOrganizationSuccess) {
             List<GHRepository> repos = Utils.listRepositories(gitHubOrganizationSuccess.ghOrganization());
-            repos.forEach(repo -> System.out.println(repo.getName().toLowerCase()));
+            if (repos != null) {
+                repos.forEach(repo -> System.out.println(repo.getName().toLowerCase()));
+            }
         }
         checkRateLimit(gitHub);
     }

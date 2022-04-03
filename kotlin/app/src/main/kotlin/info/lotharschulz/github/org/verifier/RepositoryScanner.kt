@@ -40,8 +40,10 @@ class RepositoryScanner : CliktCommand(printHelpOnEmptyArgs = true, help = "help
     private fun scanOrg(organizationName: String, github: GitHub) {
         if (checkRateLimit(github)) {
             val githubOrganization = Utils.verifyGithubOrganization(github, organizationName)
-            val repositories = Utils.listRepos(githubOrganization, limit = -1)
-            repositories.forEach { println("repo: ${it.name}") }
+            githubOrganization?.let {
+                val repositories = Utils.listOrgRepos(it, limit = -1)
+                repositories.forEach { println("repo: ${it.name}") }
+            }
         }
         checkRateLimit(github)
     }

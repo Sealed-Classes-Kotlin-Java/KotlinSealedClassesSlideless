@@ -45,11 +45,11 @@ class Utils {
             }
         }
 
-        fun verifyGithubOrganization(gitHub: GitHub, org: String): Organization {
+        fun verifyGithubOrganization(gitHub: GitHub, org: String): GHOrganization? {
             return try {
-                Organization.Success(gitHub.getOrganization(org))
+                gitHub.getOrganization(org)
             } catch (GHfnfe: GHFileNotFoundException) {
-                Organization.Failure(GHfnfe.message.toString())
+                null
             }
         }
 
@@ -59,7 +59,7 @@ class Utils {
                 is Organization.Failure -> emptyList()
             }
 
-        private fun listOrgRepos(ghOrg: GHOrganization, limit: Int): List<GHRepository> {
+        fun listOrgRepos(ghOrg: GHOrganization, limit: Int): List<GHRepository> {
             val repositories = ghOrg.listRepositories()
             return if (limit > -1) {
                 repositories.take(limit)
