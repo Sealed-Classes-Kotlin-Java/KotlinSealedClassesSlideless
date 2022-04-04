@@ -52,12 +52,6 @@ class Utils {
             }
         }
 
-        fun listRepos(org: Organization, limit: Int): List<GHRepository> =
-            when (org) {
-                is Organization.Success -> listOrgRepos(org.githubOrg, limit)
-                is Organization.Failure -> emptyList()
-            }
-
         fun listOrgRepos(ghOrg: GHOrganization, limit: Int): List<GHRepository> {
             val repositories = ghOrg.listRepositories()
             return if (limit > -1) {
