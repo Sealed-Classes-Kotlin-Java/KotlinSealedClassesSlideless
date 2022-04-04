@@ -1,5 +1,5 @@
 plugins {
-    val kotlinVersion = "1.6.10"
+    val kotlinVersion = "1.6.20"
     kotlin("jvm") version kotlinVersion
     application
 }
@@ -29,7 +29,7 @@ dependencies {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     kotlinOptions {
         jvmTarget = "17"
-        freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+        freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
     }
 }
 
