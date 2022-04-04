@@ -1,6 +1,5 @@
 package info.lotharschulz.github.org.verifier.api.github
 
-import org.kohsuke.github.GHFileNotFoundException
 import org.kohsuke.github.GHOrganization
 import org.kohsuke.github.GHRepository
 import org.kohsuke.github.GitHub
@@ -48,7 +47,7 @@ class Utils {
         fun verifyGithubOrganization(gitHub: GitHub, org: String): GHOrganization? {
             return try {
                 gitHub.getOrganization(org)
-            } catch (GHfnfe: GHFileNotFoundException) {
+            } catch (ioe: IOException) {
                 null
             }
         }
