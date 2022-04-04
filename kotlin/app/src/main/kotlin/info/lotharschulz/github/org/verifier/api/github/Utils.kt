@@ -48,8 +48,8 @@ class Utils {
         fun verifyGithubOrganization(gitHub: GitHub, org: String): Organization {
             return try {
                 Organization.Success(gitHub.getOrganization(org))
-            } catch (GHfnfe: GHFileNotFoundException) {
-                Organization.Failure(GHfnfe.message.toString())
+            } catch (ioe: IOException) {
+                Organization.Failure(ioe.localizedMessage)
             }
         }
 
