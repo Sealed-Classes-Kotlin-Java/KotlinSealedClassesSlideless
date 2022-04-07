@@ -1,7 +1,9 @@
 ### Build and run code
 
+##### precondition
 generate a [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) and grant `read:org, repo` [roles](https://docs.github.com/en/organizations/managing-access-to-your-organizations-repositories/repository-roles-for-an-organization)  
 
+##### terminal
 ```sh
 export GITHUB_OAUTH=<your github personal access token>
 echo $GITHUB_OAUTH
