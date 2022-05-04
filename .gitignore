@@ -6,3 +6,6 @@ build
 
 #IntelliJ
 .idea
+
+#mac
+.DS_Store
