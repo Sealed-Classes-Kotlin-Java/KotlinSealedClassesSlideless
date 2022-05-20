@@ -8,6 +8,7 @@ import info.lotharschulz.github.org.verifier.api.github.credentials.GitHubCreden
 import info.lotharschulz.github.org.verifier.api.github.credentials.GitHubCredentialsFailure;
 import info.lotharschulz.github.org.verifier.api.github.credentials.GitHubCredentialsSuccess;
 import info.lotharschulz.github.org.verifier.api.github.organization.GitHubOrganization;
+import info.lotharschulz.github.org.verifier.api.github.organization.GitHubOrganizationFailure;
 import info.lotharschulz.github.org.verifier.api.github.organization.GitHubOrganizationSuccess;
 import info.lotharschulz.github.org.verifier.api.github.repository.GitHubRepositorySuccess;
 import org.kohsuke.github.GHOrganization;
@@ -71,6 +72,8 @@ public class RepositoryScanner implements Callable<Integer>{
         if (githubOrganization instanceof GitHubOrganizationSuccess gitHubOrganizationSuccess) {
             List<GHRepository> repos = Utils.listRepositories(gitHubOrganizationSuccess.ghOrganization());
             repos.forEach(repo -> System.out.println(repo.getName().toLowerCase()));
+        } else if (githubOrganization instanceof GitHubOrganizationFailure gitHubOrganizationFailure) {
+            System.out.println(gitHubOrganizationFailure.error());
         }
         checkRateLimit(gitHub);
     }
