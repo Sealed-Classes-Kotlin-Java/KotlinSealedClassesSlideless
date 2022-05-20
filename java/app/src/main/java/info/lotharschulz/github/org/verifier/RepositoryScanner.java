@@ -30,28 +30,32 @@ public class RepositoryScanner implements Callable<Integer>{
     @Override
     public Integer call() {
         GitHubConnection gitHubConnectionResult = Utils.verifyGitHubConnection(org);
-
-        if (gitHubConnectionResult instanceof GitHubConnectionSuccess gitHubConnectionSuccess) {
-            if (verifyGitHubCredentials(gitHubConnectionSuccess)) {
-                scanOrg(org, gitHubConnectionSuccess.getGh());
+        switch (gitHubConnectionResult) {
+            case GitHubConnectionSuccess gitHubConnectionSuccess -> {
+                if (verifyGitHubCredentials(gitHubConnectionSuccess)) {
+                    scanOrg(org, gitHubConnectionSuccess.getGh());
+                }
             }
-        } else if (gitHubConnectionResult instanceof GitHubConnectionFailure gitHubConnectionFailure) {
-            System.out.println("gitHubConnectionFailure.getError(): " + gitHubConnectionFailure.getError());
-        } else {
-            return 1;
+            case GitHubConnectionFailure gitHubConnectionFailure -> {
+                System.out.println("gitHubConnectionFailure.getError(): " + gitHubConnectionFailure.getError());
+            }
+            default -> {
+                return 1;
+            }
         }
         return 0;
     }
 
     private boolean verifyGitHubCredentials(GitHubConnectionSuccess gitHubConnectionSuccess) {
         GitHubCredentials gitHubCredentialsResult = Utils.verifyGitHubCredentials(gitHubConnectionSuccess.getGh());
-        if (gitHubCredentialsResult instanceof GitHubCredentialsSuccess){
-            return true;
-        } else if (gitHubCredentialsResult instanceof GitHubCredentialsFailure gitHubCredentialsFailure) {
-            System.out.println("gitHubCredentialsFailure.error(): " + gitHubCredentialsFailure.error());
-            return false;
-        } else {
-            return false;
+        switch (gitHubCredentialsResult) {
+            case GitHubCredentialsSuccess gitHubCredentialsSuccess -> {
+                return true;
+            }
+            case GitHubCredentialsFailure gitHubCredentialsFailure -> {
+                System.out.println("gitHubCredentialsFailure.error(): " + gitHubCredentialsFailure.error());
+                return false;
+            }
         }
     }
 
