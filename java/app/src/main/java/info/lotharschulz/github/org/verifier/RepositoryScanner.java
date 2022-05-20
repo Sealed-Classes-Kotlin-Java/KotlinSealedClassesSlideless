@@ -69,17 +69,15 @@ public class RepositoryScanner implements Callable<Integer>{
     private void scanOrg(String organizationName, GitHub gitHub){
         checkRateLimit(gitHub);
         GitHubOrganization githubOrganization = Utils.verifyGithubOrganization(gitHub, organizationName);
-        if (githubOrganization instanceof GitHubOrganizationSuccess gitHubOrganizationSuccess) {
-            List<GHRepository> repos = Utils.listRepositories(gitHubOrganizationSuccess.ghOrganization());
-            repos.forEach(repo -> System.out.println(repo.getName().toLowerCase()));
-        } else if (githubOrganization instanceof GitHubOrganizationFailure gitHubOrganizationFailure) {
-            System.out.println(gitHubOrganizationFailure.error());
+        switch (githubOrganization) {
+            case GitHubOrganizationSuccess gitHubOrganizationSuccess -> {
+                List<GHRepository> repos = Utils.listRepositories(gitHubOrganizationSuccess.ghOrganization());
+                repos.forEach(repo -> System.out.println(repo.getName().toLowerCase()));
+            }
+            case GitHubOrganizationFailure gitHubOrganizationFailure -> {
+                System.out.println(gitHubOrganizationFailure.error());
+            }
         }
-        /* switch instead of if does NOT work, e.g.:
-        switch (githubOrganization) { .... }
-        Incompatible types. Found: 'info.lotharschulz.github.org.verifier.api.github.organization.GitHubOrganization',
-        required: 'char, byte, short, int, Character, Byte, Short, Integer, String, or an enum'
-         */
         checkRateLimit(gitHub);
     }
 }
