@@ -53,11 +53,15 @@ public class Utils {
 
     public static List<GHRepository> listRepositories(GHOrganization gitHubOrganization){
         GitHubRepository gitHubRepository = listGitHubRepositories(gitHubOrganization);
-        if (gitHubRepository instanceof GitHubRepositorySuccess gitHubRepositorySuccess){
-            return gitHubRepositorySuccess.ghRepositories();
-        } else {
-            return Collections.emptyList();
+        switch (gitHubRepository) {
+            case GitHubRepositorySuccess gitHubRepositorySuccess -> {
+                return gitHubRepositorySuccess.ghRepositories();
+            }
+            case GitHubRepositoryFailure gitHubRepositoryFailure -> {
+                return Collections.emptyList();
+            }
         }
+        return Collections.emptyList();
     }
 
     public static GitHubRepository listGitHubRepositories(GHOrganization gitHubOrganization){
