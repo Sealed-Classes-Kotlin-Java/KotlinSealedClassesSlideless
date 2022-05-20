@@ -58,7 +58,7 @@ public static GitHubRepository listRepos(GHOrganization gitHubOrganization){
 }
 ```
 
-similar code with sealed interfaces and records ([source](https://github.com/Sealed-Classes-Kotlin-Java/KotlinSealedClassesSlideless/blob/main/java/app/src/main/java/info/lotharschulz/github/org/verifier/api/github/Utils.java#L63-L69)):
+similar code with sealed interfaces and records ([source](https://github.com/Sealed-Classes-Kotlin-Java/KotlinSealedClassesSlideless/blob/main/java/app/src/main/java/info/lotharschulz/github/org/verifier/api/github/Utils.java#L67-L73)):
 
 ```java
 public static GitHubRepository listGitHubRepositories(GHOrganization gitHubOrganization){
@@ -85,5 +85,5 @@ export GITHUB_OAUTH=<your github personal access token>
 ```sh
 cd java
 export GITHUB_OAUTH=<your github personal access token>
-./gradlew clean build && java -jar app/build/dist/app.jar -o [GitHub organization to read repositories from]
+./gradlew clean build && java --enable-preview -jar app/build/dist/app.jar -o [GitHub organization to read repositories from]
 ```
