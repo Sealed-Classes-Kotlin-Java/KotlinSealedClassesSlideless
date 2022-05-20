@@ -8,11 +8,11 @@ generate a [personal access token](https://docs.github.com/en/authentication/kee
 export GITHUB_OAUTH=<your github personal access token>
 echo $GITHUB_OAUTH
 
-./gradlew clean build && java -jar app/build/dist/app.jar --organization=[GitHub organization to read repositories from]
+./gradlew clean build && java --enable-preview -jar app/build/dist/app.jar --organization=[GitHub organization to read repositories from]
 # or
-./gradlew clean build && java -jar app/build/dist/app.jar -o [GitHub organization to read repositories from]
+./gradlew clean build && java --enable-preview -jar app/build/dist/app.jar -o [GitHub organization to read repositories from]
 
 # sample calls to scan this organization
-./gradlew clean build && java -jar app/build/dist/app.jar --organization="Sealed-Classes-Kotlin-Java"
-./gradlew clean build && java -jar app/build/dist/app.jar -o Sealed-Classes-Kotlin-Java
+./gradlew clean build && java --enable-preview -jar app/build/dist/app.jar --organization="Sealed-Classes-Kotlin-Java"
+./gradlew clean build && java --enable-preview -jar app/build/dist/app.jar -o Sealed-Classes-Kotlin-Java
 ```
