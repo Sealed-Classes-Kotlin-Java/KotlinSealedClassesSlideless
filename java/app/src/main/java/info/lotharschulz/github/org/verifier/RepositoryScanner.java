@@ -57,6 +57,7 @@ public class RepositoryScanner implements Callable<Integer>{
                 return false;
             }
         }
+        return false;
     }
 
     private boolean checkRateLimit(GitHub gitHub){
