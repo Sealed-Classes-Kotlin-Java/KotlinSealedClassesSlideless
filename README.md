@@ -41,6 +41,15 @@ fun verifyGithubOrganization(gitHub: GitHub, org: String): Organization {
 }
 ```
 
+usage ([source](https://github.com/Sealed-Classes-Kotlin-Java/KotlinSealedClassesSlideless/blob/main/kotlin/app/src/main/kotlin/info/lotharschulz/github/org/verifier/api/github/Utils.kt#L57-L60)):
+```kotlin
+  when (org) {
+      is Organization.Success -> listOrgRepos(org.githubOrg, limit)
+      is Organization.Failure -> emptyList()
+  }
+```
+
+
 ## Java
 
 code without sealed class ([source](https://github.com/Sealed-Classes-Kotlin-Java/KotlinSealedClassesSlideless/blob/startBranch/java/app/src/main/java/info/lotharschulz/github/org/verifier/api/github/Utils.java#L50-L56)):
@@ -78,6 +87,21 @@ public static GitHubRepository listGitHubRepositories(GHOrganization gitHubOrgan
     }
 }
 ```
+
+```java
+GitHubOrganization githubOrganization = Utils.verifyGithubOrganization(gitHub, organizationName);
+switch (githubOrganization) {
+    case GitHubOrganizationSuccess gitHubOrganizationSuccess -> {
+        List<GHRepository> repos = Utils.listRepositories(gitHubOrganizationSuccess.ghOrganization());
+        repos.forEach(repo -> System.out.println(repo.getName().toLowerCase()));
+    }
+    case GitHubOrganizationFailure gitHubOrganizationFailure -> {
+        System.out.println(gitHubOrganizationFailure.error());
+    }
+}
+```
+
+
 
 ## Usage
 
