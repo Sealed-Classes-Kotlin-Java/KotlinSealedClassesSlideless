@@ -19,6 +19,15 @@ fun verifyGithubOrganization(gitHub: GitHub, org: String): GHOrganization? {
 }
 ```
 
+usage ([source](https://github.com/Sealed-Classes-Kotlin-Java/KotlinSealedClassesSlideless/blob/startBranch/kotlin/app/src/main/kotlin/info/lotharschulz/github/org/verifier/RepositoryScanner.kt#L42-L46)):
+```kotlin
+  val githubOrganization = Utils.verifyGithubOrganization(github, organizationName)
+  githubOrganization?.let {
+      val repositories = Utils.listOrgRepos(it, limit = -1)
+      repositories.forEach { println("repo: ${it.name}") }
+  }
+```
+
 
 similar code with sealed classes ([source](https://github.com/Sealed-Classes-Kotlin-Java/KotlinSealedClassesSlideless/blob/main/kotlin/app/src/main/kotlin/info/lotharschulz/github/org/verifier/api/github/Utils.kt#L48-L54)):
 
