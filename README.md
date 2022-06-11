@@ -88,6 +88,7 @@ public static GitHubRepository listGitHubRepositories(GHOrganization gitHubOrgan
 }
 ```
 
+usage with _[Java 17 (Preview) language level](https://www.lotharschulz.info/2022/05/22/how-to-set-java-pattern-matching-for-switch-in-intellij-gradle/)_ ([source](https://github.com/Sealed-Classes-Kotlin-Java/KotlinSealedClassesSlideless/blob/main/java/app/src/main/java/info/lotharschulz/github/org/verifier/RepositoryScanner.java#L76-L85))
 ```java
 GitHubOrganization githubOrganization = Utils.verifyGithubOrganization(gitHub, organizationName);
 switch (githubOrganization) {
@@ -101,6 +102,16 @@ switch (githubOrganization) {
 }
 ```
 
+usage with plain java 17:
+```java
+if (gitHubRepository instanceof GitHubRepositorySuccess gitHubRepositorySuccess){
+    return gitHubRepositorySuccess.ghRepositories();
+} else if (gitHubConnectionResult instanceof GitHubConnectionFailure gitHubConnectionFailure) {
+    System.out.println("gitHubConnectionFailure.getError(): " + gitHubConnectionFailure.getError());
+} else {
+    return 1;
+}
+```
 
 
 ## Usage
