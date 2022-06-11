@@ -64,6 +64,15 @@ public static List<GHRepository> listRepositories(GHOrganization gitHubOrganizat
 }
 ```
 
+usage ([source](https://github.com/Sealed-Classes-Kotlin-Java/KotlinSealedClassesSlideless/blob/startBranch/java/app/src/main/java/info/lotharschulz/github/org/verifier/RepositoryScanner.java#L70-L73)):
+
+```java
+  List<GHRepository> repos = Utils.listRepositories(gitHubOrganizationSuccess.ghOrganization());
+  if (repos != null) {
+      repos.forEach(repo -> System.out.println(repo.getName().toLowerCase()));
+  }
+```
+
 similar code with sealed classes ([source](https://github.com/Sealed-Classes-Kotlin-Java/KotlinSealedClassesSlideless/blob/java_02_listRepos_sealedClasses/java/app/src/main/java/info/lotharschulz/github/org/verifier/api/github/Utils.java#L63-L69)):
 
 ```java
