@@ -22,6 +22,17 @@ dependencies {
 
 val classMain = "info.lotharschulz.github.org.verifier.App"
 
+val ENABLE_PREVIEW = "--enable-preview"
+
+tasks.withType<JavaCompile> {
+    options.compilerArgs.add(ENABLE_PREVIEW)
+    options.compilerArgs.add("-Xlint:preview")
+}
+tasks.test {
+    useJUnitPlatform()
+    jvmArgs(ENABLE_PREVIEW)
+}
+
 val fatJar = task("customFatJar", type = Jar::class) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
