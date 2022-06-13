@@ -22,12 +22,15 @@ dependencies {
 
 val classMain = "info.lotharschulz.github.org.verifier.App"
 
+val ENABLE_PREVIEW = "--enable-preview"
+
 tasks.withType<JavaCompile> {
-    options.compilerArgs.add("--enable-preview")
+    options.compilerArgs.add(ENABLE_PREVIEW)
+//    options.compilerArgs.add("-Xlint:preview")
 }
 tasks.test {
     useJUnitPlatform()
-    jvmArgs("--enable-preview")
+    jvmArgs(ENABLE_PREVIEW)
 }
 
 val fatJar = task("customFatJar", type = Jar::class) {
