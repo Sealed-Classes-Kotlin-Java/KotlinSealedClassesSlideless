@@ -123,7 +123,7 @@ if (gitHubRepository instanceof GitHubRepositorySuccess gitHubRepositorySuccess)
 ```
 
 
-## Usage
+## How to run the code
 
 Java and Kotlin code reads GitHub organization data
 
