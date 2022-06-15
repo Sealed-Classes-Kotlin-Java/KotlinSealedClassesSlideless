@@ -122,16 +122,15 @@ if (gitHubRepository instanceof GitHubRepositorySuccess gitHubRepositorySuccess)
 }
 ```
 
-
 ## Setup
 
 Create a github personal access token with at least the following scopes:
 
 ![personal access token](PAT_scopes.png "personal access token")
 
-## Usage
+## How to run the code
 
-Java and Kotlin code reads GitHub organization data
+Java and Kotlin code reads GitHub organization data provided by the `-o` flag 
 
 ### Kotlin
 ```sh
