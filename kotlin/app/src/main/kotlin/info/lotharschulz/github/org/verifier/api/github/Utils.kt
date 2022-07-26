@@ -45,7 +45,7 @@ class Utils {
             }
         }
 
-        fun verifyGithubOrganization(gitHub: GitHub, org: String): Organization {
+        fun verifyGithubOrganization(gitHub: GitHub, org: String): Org {
             return try {
                 Organization.Success(gitHub.getOrganization(org))
             } catch (ioe: IOException) {
@@ -53,7 +53,7 @@ class Utils {
             }
         }
 
-        fun listRepos(org: Organization, limit: Int): List<GHRepository> =
+        fun listRepos(org: Org, limit: Int): List<GHRepository> =
             when (org) {
                 is Organization.Success -> listOrgRepos(org.githubOrg, limit)
                 is Organization.Failure -> emptyList()
