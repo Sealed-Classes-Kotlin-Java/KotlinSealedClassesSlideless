@@ -1,6 +1,6 @@
-# Kotlin vs Java Sealed Classes
+# Kotlin vs Java Sealed Classes & Interfaces
 
-Sample code explaining differences between sealed classes in Java and Kotlin.
+Sample code explaining differences between sealed classes and interfaces in Java and Kotlin.
 
 - Kotlin Sealed Classes: https://kotlinlang.org/docs/sealed-classes.html
 - Java Sealed Classes: https://openjdk.java.net/jeps/409
